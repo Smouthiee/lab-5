@@ -287,7 +287,7 @@ public class MongoGradeDataBase implements GradeDataBase {
                         .name(teamName)
                         .members(members)
                         .build();
+                return myTeam;
             }
-        return myTeam;
     }
 }
