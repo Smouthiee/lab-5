@@ -1,6 +1,7 @@
 package api;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -268,6 +269,25 @@ public class MongoGradeDataBase implements GradeDataBase {
         // HINT 1: Look at the formTeam method to get an idea on how to parse the response
         // HINT 2: You may find it useful to just initially print the contents of the JSON
         //         then work on the details of how to parse it.
-        return null;
+            if (responseBody.getInt(STATUS_CODE) != SUCCESS_CODE)
+            {
+                throw new RuntimeException(responseBody.getString(MESSAGE));
+            }
+            else
+            {
+                final String teamName = responseBody.getString("name");
+                final JSONArray membersArray = responseBody.getJSONArray("members");
+
+                String[] members = new String[membersArray.length()];
+                for (int i = 0; i < membersArray.length(); i++) {
+                    members[i] = membersArray.getString(i);
+                }
+
+                Team myTeam = Team.builder()
+                        .name(teamName)
+                        .members(members)
+                        .build();
+            }
+        return myTeam;
     }
 }
